@@ -133,11 +133,7 @@ public class OrderResponse {
             updateOrderPrice(conn, orderId, total);
 
             int oldQuantityOrder = getOldOrderQuantity(conn, orderId, productId);
-
-            // Cập nhật số lượng trong bảng Order_Product
-            updateOrderProductWithProductId(conn, orderId, productId, quantityInput);
-
-            // Điều chỉnh số lượng trong kho
+            // Điều chỉnh số lượng trong kho và Order_Product
             adjustProductQuantity(conn, orderId,productId, oldQuantityOrder, quantityInput);
 
             conn.commit();
@@ -199,10 +195,10 @@ public class OrderResponse {
 
             // Trường hợp số lượng trong kho đủ, thực hiện trừ đi số lượng nhập vào từ kho
             if (newQuantityInput > oldQuantityOrder) {
-                int quantityToReduce = newQuantityInput - oldQuantityOrder;
+                int quantityToReduce = newQuantityInput - oldQuantityOrder;// Trừ đi số lượng kho
                 String sqlUpdateStock = "UPDATE Product SET quantity = quantity - ? WHERE id = ?";
                 try (PreparedStatement stmt = conn.prepareStatement(sqlUpdateStock)) {
-                    stmt.setInt(1, quantityToReduce); // Trừ đi số lượng kho
+                    stmt.setInt(1, quantityToReduce);
                     stmt.setString(2, productId);
                     stmt.executeUpdate();
                 }
@@ -211,7 +207,7 @@ public class OrderResponse {
             // Cập nhật lại số lượng trong đơn hàng với số lượng mới
             String sqlUpdateOrderProduct = "UPDATE Order_Product SET quantity = ? WHERE order_id = ? AND product_id = ?";
             try (PreparedStatement stmt = conn.prepareStatement(sqlUpdateOrderProduct)) {
-                stmt.setInt(1, newQuantityInput); // Cập nhật số lượng mới trong đơn hàng
+                stmt.setInt(1, newQuantityInput);
                 stmt.setString(2, orderId);
                 stmt.setString(3, productId);
                 stmt.executeUpdate();
@@ -243,24 +239,6 @@ public class OrderResponse {
         }
     }
 
-    private static void updateOrderProductWithProductId(Connection conn, String orderId, String ProductId, int newQuantityInput) throws SQLException {
-        ProductId = validateProductId(conn, ProductId);
-        if (ProductId == null) return;
-
-        String sqlUpdateProductOrder = "UPDATE order_product SET product_id = ?, quantity = ? WHERE order_id = ?";
-        try (PreparedStatement stmt = conn.prepareStatement(sqlUpdateProductOrder)) {
-            stmt.setString(1, ProductId);
-            stmt.setInt(2, newQuantityInput);
-            stmt.setString(3, orderId);
-
-            int rowsUpdated = stmt.executeUpdate();
-            if (rowsUpdated <= 0) {
-                throw new SQLException("Failed to update product ID for order: " + orderId);
-            } else {
-                JOptionPane.showMessageDialog(null, "Product ID and quantity updated successfully.", "Success", JOptionPane.INFORMATION_MESSAGE);
-            }
-        }
-    }
 
     private static int getProductStockQuantity(Connection conn, String productId) throws SQLException {
         String sql = "SELECT quantity FROM Product WHERE id = ?";
