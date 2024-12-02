@@ -3,6 +3,7 @@ package com.example.shop_manager.Response;
 import com.example.shop_manager.Entity.Product;
 import com.example.shop_manager.Main.DatabaseConnection;
 
+import javax.swing.*;
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -48,6 +49,10 @@ public class ProductResponse {
     }
 
     public boolean addProduct(Product product) throws SQLException {
+        if (product.getQuantity() < 0) {
+            JOptionPane.showMessageDialog(null, "Product quantity is less than 0");
+            return false;
+        }
         try (Connection connection = DatabaseConnection.getConnection()) {
             String sql = "INSERT INTO product(name, category, price, quantity) VALUES(?, ?, ?, ?)";
             PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -69,6 +74,10 @@ public class ProductResponse {
     }
 
     public boolean updateProduct(Product product) throws SQLException {
+        if (product.getQuantity() < 0) {
+            JOptionPane.showMessageDialog(null, "Product quantity is less than 0");
+            return false;
+        }
         try (Connection connection = DatabaseConnection.getConnection()) {
             String sql = "UPDATE product SET name = ?, category = ?, price = ?, quantity = ? WHERE id = ?";
             PreparedStatement statement = connection.prepareStatement(sql);

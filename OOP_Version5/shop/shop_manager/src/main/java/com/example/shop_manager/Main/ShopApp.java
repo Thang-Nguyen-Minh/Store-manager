@@ -27,6 +27,7 @@ public class ShopApp extends javax.swing.JFrame{
         frame.setLocationRelativeTo(null);
     }
 
+
     public static void main(String[] args) {
         SwingUtilities.invokeLater(ShopApp::new);
     }

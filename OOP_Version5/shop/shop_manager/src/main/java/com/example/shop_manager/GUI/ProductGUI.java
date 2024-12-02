@@ -82,7 +82,6 @@ public class ProductGUI extends JPanel {
         searchPanel.add(btnSearch);
         add(searchPanel, BorderLayout.NORTH);
 
-        // Thêm MouseListener để hiển thị chi tiết sản phẩm khi nhấp vào hàng
         table.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -97,8 +96,6 @@ public class ProductGUI extends JPanel {
             }
         });
 
-        // Tải dữ liệu ban đầu
-        //loadData();
     }
 
     private void loadData() {
@@ -136,7 +133,7 @@ public class ProductGUI extends JPanel {
                 JOptionPane.showMessageDialog(this, "Failed to add product.");
             }
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, "Failed to delete product. This product is existed in order");
+
         }
     }
 
@@ -197,7 +194,7 @@ public class ProductGUI extends JPanel {
             Product product = productResponse.searchProductByName(searchName);
 
             if (product != null) {
-                model.setRowCount(0); // Clear table
+                model.setRowCount(0);
                 model.addRow(new Object[]{product.getId(), product.getName(), product.getCategory(),
                         product.getPrice(), product.getQuantity()});
                 JOptionPane.showMessageDialog(this, "Product found!");

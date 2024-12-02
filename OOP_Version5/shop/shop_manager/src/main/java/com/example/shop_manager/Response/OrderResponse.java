@@ -117,7 +117,7 @@ public class OrderResponse {
             }
 
             int quantityInput = Integer.parseInt(quantityText.trim());
-            if(quantityInput <=0 ) {
+            if(quantityInput <0 ) {
                 JOptionPane.showMessageDialog(null, "Quantity must greater than 0");
                 return;
             }
