@@ -1,5 +1,6 @@
 package com.example.shop_manager.GUI;
 
+import com.example.shop_manager.Interface.IReport;
 import com.example.shop_manager.Response.ReportResponse;
 
 import javax.swing.*;
@@ -10,7 +11,7 @@ import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.util.List;
 
-public class ReportGUI extends JPanel {
+public class ReportGUI extends JPanel implements IReport {
     private JTextField txtCustomerID;
     private JTable table;
     private DefaultTableModel model;
@@ -58,8 +59,8 @@ public class ReportGUI extends JPanel {
         controlPanel.add(panelRow2);
         add(controlPanel, BorderLayout.SOUTH);
     }
-
-    private void printAllInvoices() {
+    @Override
+    public void printAllInvoices() {
         try {
             List<Object[]> invoices = reportResponse.fetchAllInvoices();
             updateTable(invoices);
@@ -67,8 +68,8 @@ public class ReportGUI extends JPanel {
             JOptionPane.showMessageDialog(this, "Error fetching all invoices: " + ex.getMessage());
         }
     }
-
-    private void searchInvoicesByCustomerID() {
+    @Override
+    public void searchInvoicesByCustomerID() {
         String customerID = txtCustomerID.getText().trim();
         if (customerID.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please enter a Customer ID.");
@@ -81,14 +82,14 @@ public class ReportGUI extends JPanel {
             JOptionPane.showMessageDialog(this, "Error fetching invoices by Customer ID: " + ex.getMessage());
         }
     }
-
-    private void updateTable(List<Object[]> invoices) {
+    @Override
+    public void updateTable(List<Object[]> invoices) {
         model.setRowCount(0);
         double totalAmount = 0.0;
         for (Object[] row : invoices) {
             model.addRow(row);
             totalAmount += (double) row[6];
         }
-       lblTotalAmount.setText("Total Amount: " + Double.parseDouble(String.format("%.2f", totalAmount)));
+       lblTotalAmount.setText("Total Amount: " + Math.round(totalAmount));
     }
 }

@@ -6,7 +6,7 @@ public class DatabaseConnection {
 
 	private static final String URL = "jdbc:mysql://localhost:3306/shop";
 	private static final String USER = "root";
-	private static final String PASSWORD = "nguyenthithuha";
+	private static final String PASSWORD = "Thang2k4@13";
 
 	private DatabaseConnection() {}
 

@@ -1,12 +1,13 @@
 package com.example.shop_manager.GUI;
 
+import com.example.shop_manager.Interface.IOrder;
 import com.example.shop_manager.Response.OrderResponse;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 
-public class OrderGUI extends JPanel {
+public class OrderGUI extends JPanel implements IOrder {
     private JTextField txtCustomerId, txtProductId, txtQuantity, txtOrderId;
     private JTable orderTable;
     private DefaultTableModel tableModel;
@@ -74,12 +75,12 @@ public class OrderGUI extends JPanel {
         });
         add(inputPanel, BorderLayout.EAST);
     }
-
-    private void addOrder() {
+    @Override
+    public void addOrder() {
         OrderResponse.addOrder(tableModel,txtOrderId.getText(), txtCustomerId.getText(), txtProductId.getText(), txtQuantity.getText());
     }
-
-    private void deleteOrder() {
+    @Override
+    public void deleteOrder() {
         int confirm = JOptionPane.showConfirmDialog(orderTable, "Are you sure you want to delete this order?", "Confirm Delete", JOptionPane.YES_NO_OPTION);
         if (confirm != JOptionPane.YES_OPTION) {
             return;
@@ -88,12 +89,12 @@ public class OrderGUI extends JPanel {
         OrderResponse.deleteOrder(txtOrderId.getText(), orderTable, tableModel);
         JOptionPane.showMessageDialog(orderTable, "Order deleted successfully.");
     }
-
-    private void updateOrder() {
+    @Override
+    public void updateOrder() {
         OrderResponse.updateOrder(txtOrderId.getText(), txtCustomerId.getText(), txtProductId.getText(), txtQuantity.getText(), orderTable, tableModel);
     }
-
-    private void loadData() {
+    @Override
+    public void loadData() {
         OrderResponse.loadData(tableModel);
     }
 

@@ -1,6 +1,7 @@
 package com.example.shop_manager.GUI;
 
 import com.example.shop_manager.Entity.Product;
+import com.example.shop_manager.Interface.IProduct;
 import com.example.shop_manager.Response.ProductResponse;
 
 import javax.swing.*;
@@ -8,7 +9,7 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.util.ArrayList;
 
-public class ProductGUI extends JPanel {
+public class ProductGUI extends JPanel implements IProduct {
 
     private JTextField txtId, txtName, txtPrice, txtQuantity, txtSearch;
     private JComboBox<String> cmbCategory;
@@ -97,8 +98,8 @@ public class ProductGUI extends JPanel {
         });
 
     }
-
-    private void loadData() {
+    @Override
+    public void loadData() {
         model.setRowCount(0);
         try {
             ArrayList<Product> products = productResponse.loadAllProducts();
@@ -110,8 +111,8 @@ public class ProductGUI extends JPanel {
             JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage());
         }
     }
-
-    private void addProduct() {
+    @Override
+    public void addProduct() {
         try {
             String name = txtName.getText().trim();
             String category = (String) cmbCategory.getSelectedItem();
@@ -136,8 +137,8 @@ public class ProductGUI extends JPanel {
 
         }
     }
-
-    private void updateProduct() {
+    @Override
+    public void updateProduct() {
         try {
             int id = Integer.parseInt(txtId.getText().trim());
             String name = txtName.getText().trim();
@@ -161,8 +162,8 @@ public class ProductGUI extends JPanel {
 
         }
     }
-
-    private void deleteProduct() {
+    @Override
+    public void deleteProduct() {
         try {
             int selectedRow = table.getSelectedRow();
             if (selectedRow == -1) {
@@ -187,8 +188,8 @@ public class ProductGUI extends JPanel {
 
         }
     }
-
-    private void searchProduct() {
+    @Override
+    public void searchProduct() {
         try {
             String searchName = txtSearch.getText().trim();
             Product product = productResponse.searchProductByName(searchName);
@@ -205,8 +206,7 @@ public class ProductGUI extends JPanel {
 
         }
     }
-
-    private void clearFields() {
+    public void clearFields() {
         txtId.setText("");
         txtName.setText("");
         txtPrice.setText("");

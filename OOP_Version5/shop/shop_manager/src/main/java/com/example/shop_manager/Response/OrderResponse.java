@@ -86,7 +86,7 @@ public class OrderResponse {
 
             while (rs.next()) {
                 double total = rs.getDouble("total");
-                String formattedTotal = String.format("%.2f", total);
+                double formattedTotal = Math.round(total);
                 Object[] rowData = {
                         rs.getString("order_id"),
                         rs.getString("customer_id"),

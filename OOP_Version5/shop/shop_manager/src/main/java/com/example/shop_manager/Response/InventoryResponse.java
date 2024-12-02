@@ -1,5 +1,6 @@
 package com.example.shop_manager.Response;
 
+import com.example.shop_manager.Entity.Inventory;
 import com.example.shop_manager.Main.DatabaseConnection;
 
 import javax.swing.table.DefaultTableModel;
@@ -17,13 +18,14 @@ public class InventoryResponse  {
             ResultSet resultSet = connection.createStatement().executeQuery(sql);
 
             while (resultSet.next()) {
-                int id = resultSet.getInt("id");
-                String name = resultSet.getString("name");
-                String category = resultSet.getString("category");
-                double price = resultSet.getDouble("price");
-                int quantity = resultSet.getInt("quantity");
-
-                model.addRow(new Object[]{id, name, category, price, quantity});
+                Inventory inventory = Inventory.fromResultSet(resultSet);
+                model.addRow(new Object[]{
+                        inventory.getId(),
+                        inventory.getName(),
+                        inventory.getCategory(),
+                        inventory.getPrice(),
+                        inventory.getQuantity()
+                });
             }
         } catch (SQLException e) {
             throw new RuntimeException("Error loading products: " + e.getMessage());
@@ -40,13 +42,14 @@ public class InventoryResponse  {
             ResultSet resultSet = statement.executeQuery();
 
             while (resultSet.next()) {
-                int id = resultSet.getInt("id");
-                String name = resultSet.getString("name");
-                String category = resultSet.getString("category");
-                double price = resultSet.getDouble("price");
-                int quantity = resultSet.getInt("quantity");
-
-                model.addRow(new Object[]{id, name, category, price, quantity});
+                Inventory inventory = Inventory.fromResultSet(resultSet);
+                model.addRow(new Object[]{
+                        inventory.getId(),
+                        inventory.getName(),
+                        inventory.getCategory(),
+                        inventory.getPrice(),
+                        inventory.getQuantity()
+                });
             }
         } catch (SQLException e) {
             throw new RuntimeException("Error searching products: " + e.getMessage());

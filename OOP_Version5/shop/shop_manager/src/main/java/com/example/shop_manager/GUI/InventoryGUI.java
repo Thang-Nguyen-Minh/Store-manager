@@ -1,6 +1,7 @@
 package com.example.shop_manager.GUI;
 
 
+import com.example.shop_manager.Interface.IInventory;
 import com.example.shop_manager.Response.InventoryResponse;
 
 import javax.swing.*;
@@ -9,7 +10,7 @@ import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 
-public class InventoryGUI extends JPanel {
+public class InventoryGUI extends JPanel implements IInventory {
     private JTable table;
     private DefaultTableModel model;
     private JTextField searchNameField;
@@ -79,16 +80,16 @@ public class InventoryGUI extends JPanel {
             }
         });
     }
-
-    private void loadProducts() {
+    @Override
+    public void loadProducts() {
         try {
             response.loadProducts(model);
         } catch (RuntimeException e) {
             JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-
-    private void searchProducts() {
+    @Override
+    public void searchProducts() {
         try {
             String nameKeyword = searchNameField.getText().trim();
             String categoryKeyword = searchCategoryField.getText().trim();
