@@ -73,7 +73,7 @@ public class CustomerResponse  {
                 JOptionPane.showMessageDialog(table, "Deletion failed! Customer does not exist");
             }
         } catch (SQLException e1) {
-            JOptionPane.showMessageDialog(table, "Database connection error: " + e1.getMessage());
+            JOptionPane.showMessageDialog(table,"Failed to delete customer. This product is existed in order");
         }
     }
 
