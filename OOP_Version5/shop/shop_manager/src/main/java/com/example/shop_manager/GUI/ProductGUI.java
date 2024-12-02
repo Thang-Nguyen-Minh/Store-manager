@@ -136,7 +136,7 @@ public class ProductGUI extends JPanel {
                 JOptionPane.showMessageDialog(this, "Failed to add product.");
             }
         } catch (Exception ex) {
-
+            JOptionPane.showMessageDialog(this, "Failed to delete product. This product is existed in order");
         }
     }
 
