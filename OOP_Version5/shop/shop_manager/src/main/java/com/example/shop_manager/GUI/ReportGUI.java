@@ -89,6 +89,6 @@ public class ReportGUI extends JPanel {
             model.addRow(row);
             totalAmount += (double) row[6];
         }
-        lblTotalAmount.setText("Total Amount: " + totalAmount);
+       lblTotalAmount.setText("Total Amount: " + Double.parseDouble(String.format("%.2f", totalAmount)));
     }
 }
