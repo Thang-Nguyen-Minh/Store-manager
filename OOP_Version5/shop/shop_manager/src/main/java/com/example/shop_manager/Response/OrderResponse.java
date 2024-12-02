@@ -165,15 +165,7 @@ public class OrderResponse {
 
     private static void adjustProductQuantity(Connection conn, String orderId, String productId, int oldQuantityOrder, int newQuantityInput) throws SQLException {
         // Lấy số lượng hiện tại trong kho
-        String sqlCheckStock = "SELECT quantity FROM Product WHERE id = ?";
-        int currentStock = 0;
-        try (PreparedStatement stmt = conn.prepareStatement(sqlCheckStock)) {
-            stmt.setString(1, productId);
-            ResultSet rs = stmt.executeQuery();
-            if (rs.next()) {
-                currentStock = rs.getInt("quantity");
-            }
-        }
+        int currentStock = getProductStockQuantity(conn,productId);
 
         // Trường hợp tổng số hàng trong kho cộng với số trong đơn hàng nhỏ hơn hoặc bằng số hàng nhập vào
         if (currentStock + oldQuantityOrder <= newQuantityInput) {
