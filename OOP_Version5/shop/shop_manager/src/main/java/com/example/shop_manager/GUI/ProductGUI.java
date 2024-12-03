@@ -75,8 +75,8 @@ public class ProductGUI extends JPanel implements IProduct {
         searchPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
 
         searchPanel.add(new JLabel("Search by Name:"));
-        JTextField txtSearchName = new JTextField(10);
-        searchPanel.add(txtSearchName);
+        txtSearch = new JTextField(10); // Sử dụng biến thành viên
+        searchPanel.add(txtSearch);
 
         JButton btnSearch = new JButton("Search");
         btnSearch.addActionListener(e -> searchProduct());
@@ -203,7 +203,8 @@ public class ProductGUI extends JPanel implements IProduct {
                 JOptionPane.showMessageDialog(this, "No product found with the given name.");
             }
         } catch (Exception ex) {
-
+            JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage());
+            ex.printStackTrace();
         }
     }
     public void clearFields() {
