@@ -63,7 +63,6 @@ public class CustomerGUI extends JPanel {
         searchPanel.add(btnSearch);
 
         add(searchPanel, BorderLayout.NORTH);
-
         table.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -80,7 +79,6 @@ public class CustomerGUI extends JPanel {
                 }
             }
         });
-
         JButton btnAdd = new JButton("Add");
         btnAdd.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -117,21 +115,17 @@ public class CustomerGUI extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 int selectedRow = table.getSelectedRow();
                 if (selectedRow != -1) {
-
                     int confirm = JOptionPane.showConfirmDialog(table, "Are you sure you want to delete this customer?", "Confirm Delete", JOptionPane.YES_NO_OPTION);
                     if (confirm != JOptionPane.YES_OPTION) {
                         return;
                     }
-
                     logic.deleteCustomer(selectedRow, model, table);
-
                 } else {
                     JOptionPane.showMessageDialog(table, "Please select a row to delete!");
                 }
             }
         });
         panel.add(btnDelete);
-
         JButton btnLoadData = new JButton("Load Data");
         btnLoadData.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -139,11 +133,7 @@ public class CustomerGUI extends JPanel {
             }
         });
         panel.add(btnLoadData);
-
         add(panel, BorderLayout.EAST);
-
-
         logic = new CustomerResponse();
     }
-
 }
